@@ -6,6 +6,7 @@ pipeline {
         stage('Backen-pipeline') {
             steps {
                 sh 'echo This is Backend Pipeline'
+                cleanWs()
             }
         }
         
