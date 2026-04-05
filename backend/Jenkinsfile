@@ -3,19 +3,7 @@ pipeline {
     
 
     stages {
-        stage('Backen-pipeline') {
-            steps {
-                sh 'echo This is Backend Pipeline'
-                cleanWs()
-            }
-        }
         
-        
-        stage('git clone') {
-            steps {
-                git branch: 'main', url: 'https://github.com/ganeshpratap1306/3-tear-book-store.git'
-            }
-        }
         stage('docker login') {
             steps {
                 dir('backend') {
