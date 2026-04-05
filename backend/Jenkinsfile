@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    
+
+    stages {
+        
+        stage('git clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ganeshpratap1306/3-tear-book-store.git'            }
+        }
+        stage('docker login') {
+            steps {
+               withDockerRegistry(credentialsId: 'docker-hub-login', url: 'https://index.docker.io/v1/') {
+                    sh 'docker build -t nikki1306/3tear-book-store-backend:latest .'    
+                    sh 'docker push nikki1306/3tear-book-store-backend:latest'
+               }
+            }
+        }
+    }
+}
