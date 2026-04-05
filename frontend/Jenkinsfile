@@ -10,10 +10,12 @@ pipeline {
         }
         stage('docker login') {
             steps {
-               withDockerRegistry(credentialsId: 'docker-hub-login', url: 'https://index.docker.io/v1/') {
-                    sh 'docker build -t nikki1306/3tear-book-store-frontend:latest .'    
-                    sh 'docker push nikki1306/3tear-book-store-frontend:latest'
-               }
+                dir('frontend') {
+                    withDockerRegistry(credentialsId: 'docker-hub-login', url: 'https://index.docker.io/v1/') {
+                        sh 'docker build -t nikki1306/3tear-book-store-frontend:latest .'
+                        sh 'docker push nikki1306/3tear-book-store-frontend:latest'
+                    }
+                }
             }
         }
     }
