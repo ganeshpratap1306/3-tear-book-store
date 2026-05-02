@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: book-store-frontend
+    ports:
+      - "80:80"
+    environment:
+      - PORT=80
+      - BACKEND_URL=http://backend:5555
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - goal-tracker-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: book-store-backend
+    ports:
+      - "5555:5555"
+    environment:
+      - MONGO_URL=mongodb://admin:admin123@mongodb:27017/bookstore?authSource=admin
+      - PORT=5555
+    depends_on:
+      - mongodb
+    networks:
+      - goal-tracker-network
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    container_name: book-store-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - goal-tracker-network
+    restart: unless-stopped
+
+networks:
+  goal-tracker-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

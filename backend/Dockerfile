@@ -18,7 +18,7 @@ WORKDIR /app
 # Sirf required files copy karo
 COPY --from=builder /app .
 
-COPY .env .env
+COPY . .
 
 EXPOSE 5555
 
